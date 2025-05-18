@@ -12,7 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: artifactory
-  interval: 10s
+  interval: 11s
   targetNamespace: artifactory
   values:
     access:
