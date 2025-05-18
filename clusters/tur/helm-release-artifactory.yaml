@@ -578,12 +578,13 @@ spec:
       additionalRules: []
       annotations: {}
       artifactoryPath: /artifactory/
-      className: ""
+      className: nginx
       defaultBackend:
         enabled: true
       disableRouterBypass: false
-      enabled: false
-      hosts: []
+      enabled: true
+      hosts:
+      - artifactory.service
       labels: {}
       pathType: ImplementationSpecific
       routerPath: /
