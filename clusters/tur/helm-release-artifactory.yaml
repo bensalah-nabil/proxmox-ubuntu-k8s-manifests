@@ -12,7 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: artifactory
-  interval: 11s
+  interval: 10s
   targetNamespace: artifactory
   values:
     access:
@@ -294,7 +294,7 @@ spec:
         mountPath: /var/opt/jfrog/artifactory
         nfs:
           backupDir: /var/opt/jfrog/artifactory-backup
-          capacity: 200Gi
+          capacity: 10Gi
           dataDir: /var/opt/jfrog/artifactory
           haBackupMount: /backup
           haDataMount: /data
@@ -363,6 +363,7 @@ spec:
         enabled: true
       statefulset:
         annotations: {}
+      storageClassName: longhorn
       terminationGracePeriodSeconds: 30
       tolerations: []
       tomcat:
@@ -956,7 +957,7 @@ spec:
         nodeSelector: {}
         persistence:
           enabled: true
-          size: 200Gi
+          size: 10Gi
         resources: {}
         resourcesPreset: small
         service:
