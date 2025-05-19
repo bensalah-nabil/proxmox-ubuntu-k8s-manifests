@@ -169,9 +169,9 @@ spec:
       pullPolicy: IfNotPresent
     ingress:
       annotations: null
-      enabled: false
-      host: sslip.io
-      ingressClassName: null
+      enabled: true
+      host: longhorn.service
+      ingressClassName: nginx
       path: /
       pathType: ImplementationSpecific
       secrets: null
