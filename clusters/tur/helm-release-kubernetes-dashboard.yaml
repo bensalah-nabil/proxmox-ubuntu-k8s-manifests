@@ -19,10 +19,7 @@ spec:
       annotations: {}
       automountServiceAccountToken: true
       containers:
-        args:
-        - --enable-skip-login=true
-        - --disable-settings-authorizer=true
-        - --system-banner="Welcome to the Kubernetes Dashboard"
+        args: []
         env: []
         ports:
         - containerPort: 8000
@@ -76,7 +73,7 @@ spec:
         tls:
           enabled: false
           secretName: ""
-        useDefaultAnnotations: false
+        useDefaultAnnotations: true
         useDefaultIngressClass: false
       labels: {}
       mode: dashboard
@@ -107,17 +104,14 @@ spec:
             type: RuntimeDefault
       settings:
         global:
-          clusterName: TUR
+          clusterName: tur
         pinnedResources: []
       tolerations: []
     auth:
       annotations: {}
       automountServiceAccountToken: true
       containers:
-        args:
-        - --enable-skip-login=true
-        - --disable-settings-authorizer=true
-        - --system-banner="Welcome to the Kubernetes Dashboard"
+        args: []
         env: []
         ports:
         - containerPort: 8000
@@ -157,11 +151,11 @@ spec:
       manifests: []
       serviceMonitor:
         annotations: {}
-        enabled: true
+        enabled: false
         labels: {}
         metricRelabelings: []
         relabelings: []
-        scheme: http
+        scheme: https
         tlsConfig:
           insecureSkipVerify: true
     kong:
@@ -175,16 +169,16 @@ spec:
       ingressController:
         enabled: false
       manager:
-        enabled: true
+        enabled: false
       proxy:
         http:
-          enabled: true
+          enabled: false
         type: ClusterIP
     metrics-server:
       args:
       - --kubelet-preferred-address-types=InternalIP
       - --kubelet-insecure-tls
-      enabled: true
+      enabled: false
     metricsScraper:
       annotations: {}
       automountServiceAccountToken: true
@@ -235,7 +229,7 @@ spec:
         ingressClassResource:
           controllerValue: k8s.io/internal-ingress-nginx
           default: false
-          name: nginx
+          name: internal-nginx
         service:
           type: ClusterIP
       enabled: false
@@ -243,8 +237,7 @@ spec:
       annotations: {}
       automountServiceAccountToken: true
       containers:
-        args:
-        - --system-banner="Welcome to the Kubernetes Dashboard"
+        args: []
         env: []
         ports:
         - containerPort: 8000
