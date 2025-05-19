@@ -178,7 +178,7 @@ spec:
         enabled: false
       proxy:
         http:
-          enabled: true
+          enabled: false
         type: ClusterIP
     metrics-server:
       args:
