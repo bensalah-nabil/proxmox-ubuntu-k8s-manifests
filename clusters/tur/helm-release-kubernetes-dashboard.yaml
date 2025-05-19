@@ -59,7 +59,10 @@ spec:
         pullPolicy: IfNotPresent
         pullSecrets: []
       ingress:
-        annotations: {}
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: HTTP
+          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+          nginx.ingress.kubernetes.io/ssl-redirect: "false"
         enabled: true
         hosts:
         - kubernetes.dashboard.service
@@ -73,7 +76,7 @@ spec:
         tls:
           enabled: false
           secretName: ""
-        useDefaultAnnotations: true
+        useDefaultAnnotations: false
         useDefaultIngressClass: false
       labels: {}
       mode: dashboard
