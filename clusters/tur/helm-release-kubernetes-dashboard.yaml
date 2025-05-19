@@ -61,10 +61,8 @@ spec:
       ingress:
         annotations:
           nginx.ingress.kubernetes.io/backend-protocol: HTTP
-          nginx.ingress.kubernetes.io/proxy-body-size: 32m
-          nginx.ingress.kubernetes.io/proxy-buffer-size: 16k
-          nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-          nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+          nginx.ingress.kubernetes.io/proxy-buffering: "off"
+          nginx.ingress.kubernetes.io/proxy-http-version: "1.1"
           nginx.ingress.kubernetes.io/ssl-redirect: "false"
         enabled: true
         hosts:
@@ -167,7 +165,7 @@ spec:
     kong:
       dblessConfig:
         configMap: kong-dbless-config
-      enabled: true
+      enabled: false
       env:
         dns_order: LAST,A,CNAME,AAAA,SRV
         nginx_worker_processes: 1
@@ -178,13 +176,13 @@ spec:
         enabled: false
       proxy:
         http:
-          enabled: false
+          enabled: true
         type: ClusterIP
     metrics-server:
       args:
       - --kubelet-preferred-address-types=InternalIP
       - --kubelet-insecure-tls
-      enabled: false
+      enabled: true
     metricsScraper:
       annotations: {}
       automountServiceAccountToken: true
