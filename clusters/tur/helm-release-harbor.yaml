@@ -132,9 +132,9 @@ spec:
       ingress:
         annotations:
           ingress.kubernetes.io/proxy-body-size: "0"
-          ingress.kubernetes.io/ssl-redirect: "true"
+          ingress.kubernetes.io/ssl-redirect: "false"
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
-          nginx.ingress.kubernetes.io/ssl-redirect: "true"
+          nginx.ingress.kubernetes.io/ssl-redirect: "false"
         className: nginx
         controller: default
         hosts:
