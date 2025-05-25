@@ -63,3 +63,39 @@ flux create source helm harbor --url https://helm.goharbor.io --timeout 10s --ex
 
 flux create helmrelease helm-release-harbor --chart harbor --interval 10s --target-namespace harbor-system  --source HelmRepository/harbor --values ../../../proxmox-ubuntu-k8s/helm/harbor/values.yaml --export > helm-release-harbor.yaml
 
+### Jenkins ###
+
+flux create source helm jenkins --url https://charts.jenkins.io --timeout 10s --export > source-helm-jenkins.yaml
+
+flux create helmrelease helm-release-jenkins --chart jenkins --interval 10s --target-namespace jenkins-system  --source HelmRepository/jenkins --values ../../../proxmox-ubuntu-k8s/helm/jenkins/values.yaml --export > helm-release-jenkins.yaml
+
+### Chaos ###
+
+flux create source helm chaos-mesh --url https://charts.chaos-mesh.org --timeout 10s --export > source-helm-chaos-mesh.yaml
+
+flux create helmrelease helm-release-chaos --chart chaos-mesh --interval 10s --target-namespace chaos-mesh --source HelmRepository/chaos-mesh --values ../../../proxmox-ubuntu-k8s/helm/chaos-mesh/values.yaml --export > helm-release-chaos-mesh.yaml
+
+### Oauth Proxy ###
+
+flux create source helm oauth-proxy --url https://oauth2-proxy.github.io/manifests  --timeout 10s --export > source-helm-oauth-proxy.yaml
+
+flux create helmrelease helm-release-oauth-proxy --chart oauth2-proxy --interval 10s --target-namespace oauth2-proxy --source HelmRepository/oauth-proxy --values ../../../proxmox-ubuntu-k8s/helm/oauth2-proxy/values.yaml --export > helm-release-oauth-proxy.yaml
+
+### Atlantis ###
+
+flux create source helm atlantis --url https://kubernetes-charts.storage.googleapis.com  --timeout 10s --export > source-helm-atlantis.yaml
+
+flux create helmrelease helm-release-atlantis --chart atlantis --interval 10s --target-namespace atlantis --source HelmRepository/atlantis --values ../../../proxmox-ubuntu-k8s/helm/atlantis/values.yaml --export > helm-release-atlantis.yaml
+
+### Vault ###
+
+flux create source helm vault --url https://helm.releases.hashicorp.com  --timeout 10s --export > source-helm-vault.yaml
+
+flux create helmrelease helm-release-vault --chart vault --interval 10s --target-namespace vault-system --source HelmRepository/vault --values ../../../proxmox-ubuntu-k8s/helm/vault/values.yaml --export > helm-release-vault.yaml
+
+### Odoo ###
+
+flux create source oci odoo --url oci://registry-1.docker.io/bitnamicharts/odoo --timeout 10s --tag "28.2.4" --export > source-oci-odoo.yaml
+
+flux create helmrelease helm-release-odoo --chart odoo --interval 10s --target-namespace odoo-system --source 	Bucket/odoo --values ../../../proxmox-ubuntu-k8s/helm/odoo/values.yaml --export > helm-release-odoo.yaml
+
