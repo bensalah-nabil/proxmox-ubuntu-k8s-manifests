@@ -16,75 +16,164 @@ spec:
   interval: 10s
   targetNamespace: odoo-system
   values:
+    affinity: {}
     allowEmptyPassword: false
+    args: []
+    automountServiceAccountToken: false
     autoscaling:
       enabled: false
+      maxReplicas: 11
+      minReplicas: 1
+      targetCPU: 50
+      targetMemory: 50
+    clusterDomain: cluster.local
+    command: []
+    commonAnnotations: {}
+    commonLabels: {}
+    containerPorts:
+      http: 8069
     containerSecurityContext:
+      allowPrivilegeEscalation: false
       capabilities:
+        add:
+        - CHOWN
+        - FOWNER
+        - SYS_CHROOT
+        - SETGID
+        - SETUID
+        - DAC_OVERRIDE
         drop:
         - ALL
       enabled: true
-      runAsGroup: 1001
-      runAsNonRoot: true
-      runAsUser: 1001
+      privileged: false
+      readOnlyRootFilesystem: false
+      runAsGroup: 0
+      runAsNonRoot: false
+      runAsUser: 0
+      seLinuxOptions: {}
       seccompProfile:
         type: RuntimeDefault
-    existingSecret: odoo-system-odoo
-    extraEnvVars:
-    - name: ODOO_INITIALIZATION_TIMEOUT
-      value: "600"
-    - name: ODOO_DEBUG
-      value: "true"
+    customLivenessProbe: {}
+    customPostInitScripts: {}
+    customReadinessProbe: {}
+    customStartupProbe: {}
+    diagnosticMode:
+      args:
+      - infinity
+      command:
+      - sleep
+      enabled: true
+    existingSecret: ""
+    externalDatabase:
+      create: true
+      database: bitnami_odoo
+      existingSecret: ""
+      existingSecretPasswordKey: ""
+      existingSecretPostgresPasswordKey: ""
+      host: ""
+      password: ""
+      port: 5432
+      postgresqlPostgresPassword: ""
+      postgresqlPostgresUser: postgres
+      user: bn_odoo
+    extraContainerPorts: []
+    extraDeploy: []
+    extraEnvVars: []
+    extraEnvVarsCM: ""
+    extraEnvVarsSecret: ""
+    extraVolumeMounts: []
+    extraVolumes: []
+    fullnameOverride: ""
     global:
-      defaultStorageClass: longhorn
+      compatibility:
+        openshift:
+          adaptSecurityContext: disabled
+      defaultStorageClass: ""
+      imagePullSecrets: []
       imageRegistry: ""
+      security:
+        allowInsecureImages: false
       storageClass: longhorn
+    hostAliases: []
     image:
-      debug: true
+      debug: false
+      digest: ""
       pullPolicy: IfNotPresent
+      pullSecrets: []
+      registry: docker.io
       repository: bitnami/odoo
       tag: 18.0.20250405-debian-12-r2
     ingress:
-      annotations:
-        nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-        nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
-        nginx.ingress.kubernetes.io/rewrite-target: /
+      annotations: {}
+      apiVersion: ""
       enabled: true
+      extraHosts: []
+      extraPaths: []
+      extraRules: []
+      extraTls: []
       hostname: odoo.app
       ingressClassName: nginx
       path: /
-      pathType: Prefix
+      pathType: ImplementationSpecific
+      secrets: []
+      selfSigned: false
       tls: false
+    initContainers: []
+    kubeVersion: ""
+    lifecycleHooks: {}
     livenessProbe:
       enabled: true
       failureThreshold: 6
       initialDelaySeconds: 600
-      path: /web/health
       periodSeconds: 30
+      successThreshold: 1
       timeoutSeconds: 5
-    metrics:
-      enabled: false
-      serviceMonitor:
-        enabled: false
+    loadDemoData: false
+    nameOverride: ""
     networkPolicy:
-      enabled: false
+      allowExternal: true
+      allowExternalEgress: true
+      enabled: true
+      extraEgress: []
+      extraIngress: []
+      ingressNSMatchLabels: {}
+      ingressNSPodMatchLabels: {}
+    nodeAffinityPreset:
+      key: ""
+      type: ""
+      values: []
+    nodeSelector: {}
     odooDatabaseFilter: .*
-    odooEmail: admin@yourdomain.com
-    odooPassword: ""
+    odooEmail: user@example.com
+    odooPassword: test123
     odooSkipInstall: false
+    pdb:
+      create: true
+      maxUnavailable: ""
+      minAvailable: ""
     persistence:
+      accessMode: ReadWriteOnce
       accessModes:
       - ReadWriteOnce
       annotations: {}
+      dataSource: {}
       enabled: true
-      size: 5Gi
-      storageClass: longhorn
+      existingClaim: ""
+      resourcePolicy: ""
+      selector: {}
+      size: 10Gi
+      storageClass: ""
+      subPath: ""
+    podAffinityPreset: ""
+    podAnnotations: {}
     podAntiAffinityPreset: soft
+    podLabels: {}
     podSecurityContext:
       enabled: true
-      fsGroup: 1001
-      runAsNonRoot: true
-      runAsUser: 1001
+      fsGroup: 0
+      fsGroupChangePolicy: Always
+      supplementalGroups: []
+      sysctls: []
     postgresql:
       architecture: standalone
       auth:
@@ -93,66 +182,67 @@ spec:
         password: ""
         username: bn_odoo
       enabled: true
-      image:
-        pullPolicy: IfNotPresent
-        registry: docker.io
-        repository: bitnami/postgresql
-        tag: 17.4.0-debian-12-r17
-      podDisruptionBudget:
-        enabled: false
-      primary:
-        livenessProbe:
-          initialDelaySeconds: 120
-          periodSeconds: 10
-        persistence:
-          accessModes:
-          - ReadWriteOnce
-          enabled: true
-          size: 5Gi
-          storageClass: longhorn
-        podAnnotations:
-          longhorn.io/allow-inconsistent: "true"
-          longhorn.io/disable-revision-counter: "true"
-        readinessProbe:
-          initialDelaySeconds: 30
-          periodSeconds: 10
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 2Gi
-          requests:
-            cpu: 500m
-            memory: 1Gi
+    priorityClassName: ""
     readinessProbe:
       enabled: true
       failureThreshold: 12
-      initialDelaySeconds: 120
+      initialDelaySeconds: 30
       path: /web/health
       periodSeconds: 10
+      successThreshold: 1
       timeoutSeconds: 5
-    resources:
-      limits:
-        cpu: 2000m
-        memory: 4Gi
-      requests:
-        cpu: 1000m
-        memory: 2Gi
+    replicaCount: 1
+    resources: {}
+    resourcesPreset: large
+    schedulerName: ""
     service:
       annotations: {}
+      clusterIP: ""
+      externalTrafficPolicy: Cluster
+      extraPorts: []
+      loadBalancerIP: ""
+      loadBalancerSourceRanges: []
       nodePorts:
         http: ""
-      port: 80
+      ports:
+        http: 80
+      sessionAffinity: None
+      sessionAffinityConfig: {}
       type: ClusterIP
+    serviceAccount:
+      annotations: {}
+      automountServiceAccountToken: false
+      create: true
+      name: ""
+    sidecars: []
+    smtpExistingSecret: ""
+    smtpHost: ""
+    smtpPassword: ""
+    smtpPort: ""
+    smtpProtocol: ""
+    smtpUser: ""
     startupProbe:
       enabled: true
-      failureThreshold: 30
+      failureThreshold: 6
       initialDelaySeconds: 300
       path: /web/health
       periodSeconds: 10
+      successThreshold: 1
       timeoutSeconds: 5
+    terminationGracePeriodSeconds: ""
+    tolerations: []
+    topologySpreadConstraints: []
+    updateStrategy:
+      rollingUpdate: null
+      type: RollingUpdate
+    usePasswordFiles: true
     volumePermissions:
-      enabled: true
-      resources:
-        requests:
-          cpu: 50m
-          memory: 64Mi
+      containerSecurityContext:
+        enabled: true
+        runAsUser: 0
+        seLinuxOptions: {}
+        seccompProfile:
+          type: RuntimeDefault
+      enabled: false
+      resources: {}
+      resourcesPreset: nano
