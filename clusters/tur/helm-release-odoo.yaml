@@ -29,13 +29,12 @@ spec:
       runAsUser: 1001
       seccompProfile:
         type: RuntimeDefault
+    existingSecret: odoo-system-odoo
     extraEnvVars:
     - name: ODOO_INITIALIZATION_TIMEOUT
       value: "600"
     - name: ODOO_DEBUG
       value: "true"
-    - name: ODOO_LOAD_DEMO_DATA
-      value: "false"
     global:
       defaultStorageClass: longhorn
       imageRegistry: ""
@@ -71,7 +70,7 @@ spec:
       enabled: false
     odooDatabaseFilter: .*
     odooEmail: admin@yourdomain.com
-    odooPassword: your-secure-password
+    odooPassword: ""
     odooSkipInstall: false
     persistence:
       accessModes:
@@ -91,7 +90,7 @@ spec:
       auth:
         database: bitnami_odoo
         existingSecret: ""
-        password: your-secure-db-password
+        password: ""
         username: bn_odoo
       enabled: true
       image:
