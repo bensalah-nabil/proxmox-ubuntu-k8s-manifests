@@ -18,10 +18,38 @@ spec:
   values:
     allowEmptyPassword: false
     existingSecret: odoo-secrets
+    global:
+      compatibility:
+        openshift:
+          adaptSecurityContext: disabled
+      defaultStorageClass: ""
+      imagePullSecrets: []
+      imageRegistry: ""
+      security:
+        allowInsecureImages: false
+      storageClass: ""
     image:
       pullPolicy: IfNotPresent
       repository: bitnami/odoo
       tag: 18.0.20250405-debian-12-r2
+    ingress:
+      annotations:
+        nginx.ingress.kubernetes.io/proxy-body-size: 50m
+      enabled: true
+      hostname: odoo.app
+      ingressClassName: nginx
+      path: /
+      secrets:
+      - certificate: |
+          -----BEGIN CERTIFICATE-----
+          ...
+          -----END CERTIFICATE-----
+        key: |
+          -----BEGIN RSA PRIVATE KEY-----
+          ...
+          -----END RSA PRIVATE KEY-----
+        name: odoo-tls
+      tls: false
     loadDemoData: false
     odooEmail: admin@example.com
     odooPassword: ""
