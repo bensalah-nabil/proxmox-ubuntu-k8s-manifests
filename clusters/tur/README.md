@@ -95,7 +95,6 @@ flux create helmrelease helm-release-vault --chart vault --interval 10s --target
 
 ### Odoo ###
 
-flux create source oci odoo --url oci://registry-1.docker.io/bitnamicharts/odoo --timeout 10s --tag "28.2.4" --export > source-oci-odoo.yaml
+flux create source helm bitnami --url=oci://registry-1.docker.io/bitnamicharts --interval=10m --namespace=flux-system --export > source-helm-odoo.yaml
 
-flux create helmrelease helm-release-odoo --chart odoo --interval 10s --target-namespace odoo-system --source 	Bucket/odoo --values ../../../proxmox-ubuntu-k8s/helm/odoo/values.yaml --export > helm-release-odoo.yaml
-
+flux create helmrelease odoo --source=HelmRepository/bitnami --chart=odoo --interval 10s --target-namespace odoo-system --chart-version=28.2.4 --values  ../../../proxmox-ubuntu-k8s/helm/odoo/values.yaml  --export > helm-release-odoo.yaml

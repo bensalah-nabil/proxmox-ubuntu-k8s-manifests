@@ -902,7 +902,10 @@ spec:
         additionalPrometheusSecretsAnnotations: {}
         additionalRemoteRead: []
         additionalRemoteWrite: []
-        additionalScrapeConfigs: []
+        additionalScrapeConfigs: |
+          - job_name: 'load-balancer-metrics'
+            static_configs:
+            - targets: ['137.74.93.227:8405']
         additionalScrapeConfigsSecret: {}
         affinity: {}
         alertingEndpoints: []
