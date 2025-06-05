@@ -79,7 +79,7 @@ spec:
       CLOUDFLARE_BUCKET_URL: ""
       CLOUDFLARE_BUCKETNAME: ""
       CLOUDFLARE_SECRET_ACCESS_KEY: ""
-      DATABASE_URL: ""
+      DATABASE_URL: postgres://postiz:postiz-password@postiz:5432/db
       GITHUB_CLIENT_ID: ""
       GITHUB_CLIENT_SECRET: ""
       JWT_SECRET: ""
