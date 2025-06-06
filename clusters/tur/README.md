@@ -98,3 +98,21 @@ flux create helmrelease helm-release-vault --chart vault --interval 10s --target
 flux create source helm bitnami --url=oci://registry-1.docker.io/bitnamicharts --interval=10m --namespace=flux-system --export > source-helm-odoo.yaml
 
 flux create helmrelease odoo --source=HelmRepository/bitnami --chart=odoo --interval 10s --target-namespace odoo-system --chart-version=28.2.4 --values  ../../../proxmox-ubuntu-k8s/helm/odoo/values.yaml  --export > helm-release-odoo.yaml
+
+### Positiz ###
+
+flux create source helm bitnami-postiz --url=oci://ghcr.io/gitroomhq/postiz-helmchart/charts --interval=10m --namespace=flux-system --export > source-helm-postiz.yaml
+
+flux create helmrelease postiz --source=HelmRepository/bitnami-postiz --chart=postiz-app --interval 10s --target-namespace postiz-system --values  ../../../proxmox-ubuntu-k8s/helm/postiz/values.yaml  --export > helm-release-postiz.yaml
+
+### Rancher ###
+
+flux create source helm rancher --url https://releases.rancher.com/server-charts/stable  --timeout 10s --export > source-helm-rancher.yaml
+
+flux create helmrelease helm-release-rancher --chart rancher --chart-version 2.11.2 --interval 10s --target-namespace rancher-system --source HelmRepository/rancher --values ../../../proxmox-ubuntu-k8s/helm/rancher/values.yaml --export > helm-release-rancher.yaml
+
+### cert-manager ###
+
+flux create source helm cert-manager --url https://charts.jetstack.io  --timeout 10s --export > source-helm-cert-manager.yaml
+
+flux create helmrelease helm-release-cert-manager --chart cert-manager  --chart-version 1.17.2 --interval 10s --target-namespace cert-manager --source HelmRepository/cert-manager --values ../../../proxmox-ubuntu-k8s/helm/cert-manager/values.yaml --export > helm-release-cert-manager.yaml

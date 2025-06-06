@@ -27,7 +27,7 @@ spec:
         pullPolicy: IfNotPresent
         repository: rancher/mirrored-bci-micro
         tag: 15.6.24.2
-      level: 0
+      level: 3
       maxAge: 1
       maxBackup: 1
       maxSize: 100
@@ -60,10 +60,10 @@ spec:
       pathType: ImplementationSpecific
       servicePort: 80
       tls:
-        secretName: tls-rancher-ingress
+        secretName: tls-rancher-ingress-psdhq
         source: rancher
     letsEncrypt:
-      environment: develop
+      environment: dev
       ingress:
         class: ""
     livenessProbe:
@@ -89,7 +89,7 @@ spec:
       failureThreshold: 5
       periodSeconds: 30
       timeoutSeconds: 5
-    replicas: 3
+    replicas: -1
     resources: {}
     service:
       annotations: {}
