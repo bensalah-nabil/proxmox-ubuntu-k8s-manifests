@@ -12,11 +12,12 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: rancher
+      version: 2.11.2
   interval: 10s
   targetNamespace: rancher-system
   values:
     addLocal: "true"
-    additionalTrustedCAs: true
+    additionalTrustedCAs: false
     agentTLSMode: ""
     antiAffinity: preferred
     auditLog:
@@ -62,7 +63,7 @@ spec:
         secretName: tls-rancher-ingress
         source: rancher
     letsEncrypt:
-      environment: ""
+      environment: develop
       ingress:
         class: ""
     livenessProbe:
