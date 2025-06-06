@@ -12,7 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: cert-manager
-      version: 2.11.2
+      version: 1.17.2
   interval: 10s
   targetNamespace: cert-manager
   values:
