@@ -70,7 +70,7 @@ spec:
         - ALL
       readOnlyRootFilesystem: true
     crds:
-      enabled: false
+      enabled: true
       keep: true
     creator: helm
     disableAutoApproval: false
