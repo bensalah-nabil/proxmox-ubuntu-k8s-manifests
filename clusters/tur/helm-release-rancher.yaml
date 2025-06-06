@@ -1,0 +1,105 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: helm-release-rancher
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: rancher
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: rancher
+  interval: 10s
+  targetNamespace: rancher-system
+  values:
+    addLocal: "true"
+    additionalTrustedCAs: true
+    agentTLSMode: ""
+    antiAffinity: preferred
+    auditLog:
+      destination: sidecar
+      hostPath: /var/log/rancher/audit/
+      image:
+        pullPolicy: IfNotPresent
+        repository: rancher/mirrored-bci-micro
+        tag: 15.6.24.2
+      level: 0
+      maxAge: 1
+      maxBackup: 1
+      maxSize: 100
+      resources: {}
+    bootstrapPassword: admin
+    certmanager:
+      version: ""
+    customLogos:
+      accessMode: ReadWriteOnce
+      enabled: true
+      size: 1Gi
+      storageClass: longhorn
+      volumeKind: persistentVolumeClaim
+      volumeSubpaths:
+        emberUi: ember
+        vueUi: vue
+    debug: true
+    extraNodeSelectorTerms: {}
+    extraObjects: []
+    extraTolerations: {}
+    fleet: ""
+    hostname: rancher.service
+    imagePullSecrets: []
+    ingress:
+      enabled: true
+      extraAnnotations: {}
+      includeDefaultExtraAnnotations: true
+      ingressClassName: nginx
+      path: /
+      pathType: ImplementationSpecific
+      servicePort: 80
+      tls:
+        secretName: tls-rancher-ingress
+        source: rancher
+    letsEncrypt:
+      environment: ""
+      ingress:
+        class: ""
+    livenessProbe:
+      failureThreshold: 5
+      periodSeconds: 30
+      timeoutSeconds: 5
+    noProxy: 127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,.svc,.cluster.local
+    postDelete:
+      enabled: true
+      ignoreTimeoutError: false
+      image:
+        repository: rancher/shell
+        tag: v0.4.1
+      namespaceList:
+      - cattle-fleet-system
+      - cattle-system
+      - rancher-operator-system
+      timeout: 120
+    priorityClassName: rancher-critical
+    privateCA: false
+    rancherImage: rancher/rancher
+    readinessProbe:
+      failureThreshold: 5
+      periodSeconds: 30
+      timeoutSeconds: 5
+    replicas: 3
+    resources: {}
+    service:
+      annotations: {}
+      disableHTTP: false
+      type: ""
+    startupProbe:
+      failureThreshold: 12
+      periodSeconds: 10
+      timeoutSeconds: 5
+    systemDefaultRegistry: ""
+    tls: ingress
+    topologyKey: kubernetes.io/hostname
+    useBundledSystemChart: false
+    webhook: ""
