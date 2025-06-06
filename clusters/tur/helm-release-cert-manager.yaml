@@ -12,6 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: cert-manager
+      version: 2.11.2
   interval: 10s
   targetNamespace: cert-manager
   values:
@@ -95,7 +96,6 @@ spec:
       rbac:
         aggregateClusterRoles: true
         create: true
-        disableHTTPChallengesRole: false
     hostAliases: []
     image:
       pullPolicy: IfNotPresent
@@ -138,7 +138,7 @@ spec:
         path: /metrics
         prometheusInstance: default
         scrapeTimeout: 30s
-        targetPort: http-metrics
+        targetPort: 9402
     replicaCount: 1
     resources: {}
     securityContext:
