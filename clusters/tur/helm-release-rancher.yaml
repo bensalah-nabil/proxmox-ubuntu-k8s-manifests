@@ -16,91 +16,39 @@ spec:
   interval: 10s
   targetNamespace: rancher-system
   values:
-    addLocal: "true"
-    additionalTrustedCAs: false
-    agentTLSMode: ""
-    antiAffinity: preferred
-    auditLog:
-      destination: sidecar
-      hostPath: /var/log/rancher/audit/
-      image:
-        pullPolicy: IfNotPresent
-        repository: rancher/mirrored-bci-micro
-        tag: 15.6.24.2
-      level: 1
-      maxAge: 1
-      maxBackup: 1
-      maxSize: 100
-      resources: {}
-    bootstrapPassword: admin
-    certmanager:
-      version: ""
+    additionalTrustedCAs: true
+    antiAffinity: required
     customLogos:
-      accessMode: ReadWriteOnce
+      accessMode: ReadWriteMany
       enabled: true
-      size: 2Gi
+      size: 5Gi
       storageClass: longhorn
       volumeKind: persistentVolumeClaim
-      volumeSubpaths:
-        emberUi: ember
-        vueUi: vue
-    debug: true
-    extraNodeSelectorTerms: {}
-    extraObjects: []
-    extraTolerations: {}
-    fleet: ""
-    hostname: rancher.service.r2b001.site
-    imagePullSecrets: []
     ingress:
-      enabled: true
-      extraAnnotations: {}
-      includeDefaultExtraAnnotations: true
-      ingressClassName: nginx
-      path: /
-      pathType: ImplementationSpecific
-      servicePort: 80
-      tls:
-        secretName: tls-rancher-ingress-psdhq
-        source: rancher
-    letsEncrypt:
-      environment: dev
-      ingress:
-        class: ""
+      servicePort: 443
     livenessProbe:
-      failureThreshold: 5
+      failureThreshold: 3
+      initialDelaySeconds: 60
       periodSeconds: 30
-      timeoutSeconds: 5
-    noProxy: 127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,.svc,.cluster.local
-    postDelete:
-      enabled: true
-      ignoreTimeoutError: false
-      image:
-        repository: rancher/shell
-        tag: v0.4.1
-      namespaceList:
-      - cattle-fleet-system
-      - cattle-system
-      - rancher-operator-system
-      timeout: 120
-    priorityClassName: rancher-critical
-    privateCA: false
-    rancherImage: rancher/rancher
+      timeoutSeconds: 10
     readinessProbe:
-      failureThreshold: 5
+      failureThreshold: 3
+      initialDelaySeconds: 30
       periodSeconds: 30
-      timeoutSeconds: 5
-    replicas: -1
-    resources: {}
+      timeoutSeconds: 10
+    replicas: 3
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+      requests:
+        cpu: 1000m
+        memory: 2Gi
     service:
-      annotations: {}
-      disableHTTP: false
-      type: ""
+      disableHTTP: true
+      type: ClusterIP
     startupProbe:
-      failureThreshold: 12
+      failureThreshold: 30
       periodSeconds: 10
-      timeoutSeconds: 5
-    systemDefaultRegistry: ""
-    tls: ingress
+      timeoutSeconds: 10
     topologyKey: kubernetes.io/hostname
-    useBundledSystemChart: false
-    webhook: ""
