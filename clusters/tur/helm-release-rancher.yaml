@@ -27,7 +27,7 @@ spec:
         pullPolicy: IfNotPresent
         repository: rancher/mirrored-bci-micro
         tag: 15.6.24.2
-      level: 3
+      level: 1
       maxAge: 1
       maxBackup: 1
       maxSize: 100
@@ -38,7 +38,7 @@ spec:
     customLogos:
       accessMode: ReadWriteOnce
       enabled: true
-      size: 1Gi
+      size: 5Gi
       storageClass: longhorn
       volumeKind: persistentVolumeClaim
       volumeSubpaths:
