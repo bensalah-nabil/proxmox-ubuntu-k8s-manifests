@@ -39,7 +39,7 @@ spec:
       className: nginx
       enabled: true
       hosts:
-      - oauth.service
+      - oauth.service.r2b001.site
       path: /
       pathType: ImplementationSpecific
     metrics:
