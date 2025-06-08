@@ -40,7 +40,7 @@ spec:
           memory: 128Mi
     bootstrapPassword: admin
     customLogos:
-      accessMode: ReadWriteOnce
+      accessMode: ReadWriteMany
       enabled: true
       size: 2Gi
       storageClass: longhorn
