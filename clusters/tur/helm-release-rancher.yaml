@@ -40,7 +40,7 @@ spec:
           memory: 128Mi
     bootstrapPassword: admin
     customLogos:
-      accessMode: ReadWriteMany
+      accessMode: ReadWriteOnce
       enabled: true
       size: 2Gi
       storageClass: longhorn
@@ -92,7 +92,7 @@ spec:
       initialDelaySeconds: 5
       periodSeconds: 10
       timeoutSeconds: 5
-    replicas: 3
+    replicas: 1
     resources:
       limits:
         cpu: 2000m
