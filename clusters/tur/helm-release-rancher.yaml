@@ -92,7 +92,7 @@ spec:
       initialDelaySeconds: 5
       periodSeconds: 10
       timeoutSeconds: 5
-    replicas: 1
+    replicas: 2
     resources:
       limits:
         cpu: 2000m
