@@ -18,7 +18,7 @@ spec:
   values:
     addLocal: "true"
     additionalTrustedCAs: false
-    agentTLSMode: strict
+    agentTLSMode: ""
     antiAffinity: required
     auditLog:
       destination: sidecar
@@ -48,17 +48,8 @@ spec:
       volumeSubpaths:
         emberUi: ember
         vueUi: vue
-    debug: false
-    extraNodeSelectorTerms:
-    - matchExpressions:
-      - key: node-role.kubernetes.io/control-plane
-        operator: Exists
+    debug: true
     extraObjects: []
-    extraTolerations:
-    - effect: NoSchedule
-      key: dedicated
-      operator: Equal
-      value: rancher
     fleet: ""
     hostname: rancher.service.r2b001.site
     imagePullSecrets: []
@@ -73,7 +64,7 @@ spec:
         secretName: tls-rancher-ingress-psdhq
         source: rancher
     letsEncrypt:
-      environment: dev
+      environment: ""
       ingress:
         class: ""
     livenessProbe:
