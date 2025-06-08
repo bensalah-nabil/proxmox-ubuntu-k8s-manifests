@@ -169,7 +169,7 @@ spec:
       pullPolicy: IfNotPresent
     ingress:
       annotations: null
-      enabled: true
+      enabled: false
       host: longhorn.service.r2b001.site
       ingressClassName: nginx
       path: /
