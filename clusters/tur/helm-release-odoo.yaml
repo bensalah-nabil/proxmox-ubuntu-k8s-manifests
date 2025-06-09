@@ -96,7 +96,7 @@ spec:
       storageClass: ""
     hostAliases: []
     image:
-      debug: false
+      debug: true
       digest: ""
       pullPolicy: IfNotPresent
       pullSecrets: []
