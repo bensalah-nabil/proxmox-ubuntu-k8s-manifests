@@ -448,7 +448,6 @@ spec:
         pspEnabled: false
     grafana:
       additionalDataSources: []
-      adminPassword: prom-operator
       adminUser: admin
       defaultDashboardsEditable: true
       defaultDashboardsEnabled: true
@@ -464,7 +463,7 @@ spec:
           kubernetes.io/ingress.class: nginx
         enabled: true
         hosts:
-        - grafana.service
+        - grafana.service.r2b001.site
         ingressClassName: nginx
         labels: {}
         path: /
