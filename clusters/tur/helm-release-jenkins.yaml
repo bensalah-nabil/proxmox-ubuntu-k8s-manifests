@@ -200,7 +200,7 @@ spec:
         annotations: {}
         apiVersion: extensions/v1beta1
         enabled: true
-        hostName: jenkins.service
+        hostName: jenkins.service.r2b001.site
         ingressClassName: nginx
         labels: {}
         path: null
