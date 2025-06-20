@@ -169,7 +169,7 @@ spec:
         secret:
           secretName: ""
       type: ingress
-    externalURL: https://core.harbor.domain
+    externalURL: https://harbor.service.r2b001.site
     harborAdminPassword: Harbor12345
     imagePullPolicy: IfNotPresent
     imagePullSecrets: null
