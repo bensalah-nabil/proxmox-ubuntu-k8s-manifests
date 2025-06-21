@@ -301,7 +301,7 @@ spec:
         enabled: true
         extraPaths: []
         hosts:
-        - host: vault.service
+        - host: vault.service.r2b001.site
           paths: []
         ingressClassName: nginx
         labels: {}
