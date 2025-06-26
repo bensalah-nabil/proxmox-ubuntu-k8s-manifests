@@ -97,7 +97,7 @@ flux create helmrelease helm-release-vault --chart vault --interval 10s --target
 
 flux create source helm bitnami-odoo --url=oci://registry-1.docker.io/bitnamicharts --interval=10m --namespace=flux-system --export > source-helm-odoo.yaml
 
-flux create helmrelease odoo --source=HelmRepository/bitnami-odoo --chart=odoo --interval 10s --target-namespace odoo-system --chart-version=28.2.4 --values  ../../../proxmox-ubuntu-k8s/helm/odoo/values.yaml  --export > helm-release-odoo.yaml
+flux create helmrelease odoo --source=HelmRepository/bitnami-odoo --chart=odoo --interval 10s --target-namespace odoo-system --chart-version=28.2.4 --values  ../../../proxmox-ubuntu-k8s/helm/odoo/values4.yaml  --export > helm-release-odoo.yaml
 
 ### Positiz ###
 
@@ -116,3 +116,15 @@ flux create helmrelease helm-release-rancher --chart rancher --chart-version 2.1
 flux create source helm cert-manager --url https://charts.jetstack.io  --timeout 10s --export > source-helm-cert-manager.yaml
 
 flux create helmrelease helm-release-cert-manager --chart cert-manager  --chart-version 1.17.2 --interval 10s --target-namespace cert-manager --source HelmRepository/cert-manager --values ../../../proxmox-ubuntu-k8s/helm/cert-manager/values.yaml --export > helm-release-cert-manager.yaml
+
+### Minecraft ###
+
+flux create source helm minecraft --url https://itzg.github.io/minecraft-server-charts/  --timeout 10s --export > source-helm-minecraft.yaml
+
+flux create helmrelease helm-release-minecraft --chart Minecraft --chart-version 4.26.3 --interval 10s --target-namespace minecraft --source HelmRepository/minecraft --values ../../../proxmox-ubuntu-k8s/helm/minecraft/values.yaml --export > helm-release-minecraft.yaml
+
+### Mestrics-server ####
+
+flux create source helm metrics-server --url https://kubernetes-sigs.github.io/metrics-server/ --timeout 10s --export > source-helm-metrics-server.yaml
+
+flux create helmrelease helm-release-metrics-server --chart metrics-server --chart-version 3.12.2 --interval 10s --target-namespace metrics-server --source HelmRepository/metrics-server --values ../../../proxmox-ubuntu-k8s/helm/metrics-server/values.yaml --export > helm-release-metrics-server.yaml
