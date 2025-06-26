@@ -1,0 +1,89 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: odoo
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: odoo
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami-odoo
+      version: 28.2.4
+  interval: 10s
+  targetNamespace: odoo-system
+  values:
+    autoscaling:
+      enabled: false
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      enabled: true
+      runAsNonRoot: true
+      runAsUser: 1001
+    existingSecret: odoo-secrets
+    global:
+      storageClass: longhorn
+    image:
+      pullPolicy: IfNotPresent
+      registry: docker.io
+      repository: bitnami/odoo
+      tag: 18.0.20250405-debian-12-r2
+    ingress:
+      className: nginx
+      enabled: true
+      hosts:
+      - host: odoo.yourcompany.com
+        paths:
+        - path: /
+          pathType: Prefix
+      tls:
+      - hosts:
+        - odoo.yourcompany.com
+        secretName: odoo-tls
+    loadDemoData: false
+    odooEmail: admin@yourcompany.com
+    odooSkipInstall: false
+    persistence:
+      accessModes:
+      - ReadWriteOnce
+      enabled: true
+      size: 20Gi
+      storageClass: longhorn
+    podAnnotations:
+      prometheus.io/port: "8069"
+      prometheus.io/scrape: "true"
+    podSecurityContext:
+      enabled: true
+      fsGroup: 1001
+    postgresql:
+      architecture: standalone
+      auth:
+        database: bitnami_odoo
+        existingSecret: odoo-secrets
+        existingSecretPasswordKey: postgresql-password
+        password: ""
+        username: bn_odoo
+      enabled: true
+      primary:
+        persistence:
+          size: 10Gi
+          storageClass: longhorn
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 2Gi
+    replicaCount: 1
+    resources:
+      limits:
+        cpu: 4000m
+        memory: 8Gi
+      requests:
+        cpu: 2000m
+        memory: 4Gi
+    service:
+      ports:
+        http: 80
+      type: LoadBalancer
