@@ -244,6 +244,6 @@ spec:
         seLinuxOptions: {}
         seccompProfile:
           type: RuntimeDefault
-      enabled: true
+      enabled: false
       resources: {}
       resourcesPreset: nano
