@@ -78,7 +78,12 @@ spec:
       user: bn_odoo
     extraContainerPorts: []
     extraDeploy: []
-    extraEnvVars: []
+    extraEnvVars:
+    - name: ODOO_DATABASE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: postgresql-password
+          name: odoo-secrets
     extraEnvVarsCM: ""
     extraEnvVarsSecret: ""
     extraVolumeMounts: []
