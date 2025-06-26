@@ -113,7 +113,7 @@ spec:
       extraRules: []
       extraTls: []
       hostname: odoo.app.r2b001.site
-      ingressClassName: ""
+      ingressClassName: nginx
       path: /
       pathType: ImplementationSpecific
       secrets: []
