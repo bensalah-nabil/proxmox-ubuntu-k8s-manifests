@@ -78,9 +78,7 @@ spec:
       user: bn_odoo
     extraContainerPorts: []
     extraDeploy: []
-    extraEnvVars:
-    - name: POSTGRESQL_CLIENT_HOST
-      value: odoo-system-odoo-postgresql-primary.odoo-system.svc.cluster.local
+    extraEnvVars: []
     extraEnvVarsCM: ""
     extraEnvVarsSecret: odoo-secrets
     extraVolumeMounts: []
@@ -185,6 +183,7 @@ spec:
         password: ""
         username: bn_odoo
       enabled: true
+      fullnameOverride: odoo-system-odoo-postgresql
       primary:
         persistence:
           size: 10Gi
