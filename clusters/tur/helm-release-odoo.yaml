@@ -54,10 +54,6 @@ spec:
       seccompProfile:
         type: RuntimeDefault
     customLivenessProbe: {}
-    customPostInitScripts:
-      enable-logs.sh: |
-        #!/bin/bash
-        sed -i s/;logfile/logfile/ /opt/bitnami/odoo/conf/odoo.conf
     customReadinessProbe: {}
     customStartupProbe: {}
     diagnosticMode:
