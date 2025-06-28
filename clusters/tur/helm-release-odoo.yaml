@@ -203,10 +203,27 @@ spec:
       enabled: true
       fullnameOverride: odoo-system-odoo-postgresql
       primary:
-        configuration:
-          idle_in_transaction_session_timeout: 30s
-          lock_timeout: 10s
-          max_connections: 200
+        extendedConfiguration: |-
+          # Connection Settings
+          max_connections = 300
+          shared_buffers = 2GB
+
+          # Timeouts
+          idle_in_transaction_session_timeout = 30s
+          lock_timeout = 10s
+
+          # Memory Settings
+          work_mem = 32MB
+          maintenance_work_mem = 256MB
+
+          # WAL and Checkpoints
+          wal_level = replica
+          max_wal_size = 2GB
+          checkpoint_timeout = 15min
+
+          # Parallel Processing
+          max_worker_processes = 8
+          max_parallel_workers_per_gather = 4
         name: primary
         standby:
           enabled: false
