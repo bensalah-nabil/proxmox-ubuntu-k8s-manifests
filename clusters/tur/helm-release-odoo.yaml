@@ -66,7 +66,7 @@ spec:
       command:
       - sleep
       enabled: false
-    existingSecret: ""
+    existingSecret: odoo-secrets
     externalDatabase:
       create: true
       database: bitnami_odoo
@@ -83,7 +83,21 @@ spec:
     extraDeploy: []
     extraEnvVars:
     - name: ODOO_DATABASE_HOST
-      value: odoo-system-odoo-postgresql-primary
+      value: odoo-system-odoo-postgresql
+    - name: ODOO_WORKERS
+      value: "8"
+    - name: ODOO_MAX_CRON_THREADS
+      value: "4"
+    - name: ODOO_LIMIT_MEMORY_HARD
+      value: "3221225472"
+    - name: ODOO_LIMIT_MEMORY_SOFT
+      value: "2684354560"
+    - name: ODOO_LIMIT_REQUEST
+      value: "8192"
+    - name: ODOO_LIMIT_TIME_CPU
+      value: "600"
+    - name: ODOO_LIMIT_TIME_REAL
+      value: "1200"
     extraEnvVarsCM: ""
     extraEnvVarsSecret: odoo-secrets
     extraVolumeMounts: []
@@ -133,8 +147,8 @@ spec:
       initialDelaySeconds: 600
       periodSeconds: 30
       successThreshold: 1
-      timeoutSeconds: 5
-    loadDemoData: true
+      timeoutSeconds: 10
+    loadDemoData: false
     nameOverride: ""
     networkPolicy:
       allowExternal: true
@@ -156,7 +170,7 @@ spec:
     pdb:
       create: true
       maxUnavailable: ""
-      minAvailable: ""
+      minAvailable: 50%
     persistence:
       accessMode: ReadWriteMany
       accessModes:
@@ -165,14 +179,14 @@ spec:
       dataSource: {}
       enabled: true
       existingClaim: ""
-      resourcePolicy: ""
+      resourcePolicy: keep
       selector: {}
       size: 20Gi
       storageClass: longhorn
       subPath: ""
     podAffinityPreset: ""
     podAnnotations: {}
-    podAntiAffinityPreset: soft
+    podAntiAffinityPreset: hard
     podLabels: {}
     podSecurityContext:
       enabled: true
@@ -181,7 +195,7 @@ spec:
       supplementalGroups: []
       sysctls: []
     postgresql:
-      architecture: replication
+      architecture: standalone
       auth:
         database: bitnami_odoo
         existingSecret: odoo-secrets
@@ -189,57 +203,12 @@ spec:
         username: bn_odoo
       enabled: true
       fullnameOverride: odoo-system-odoo-postgresql
-      metrics:
-        enabled: true
-        serviceMonitor:
-          enabled: true
-      pgpool:
-        enabled: true
-        replicaCount: 2
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 1Gi
-          requests:
-            cpu: 500m
-            memory: 512Mi
-      postgresqlExtendedConf:
-        maintenance_work_mem: 256MB
-        max_connections: 200
-        shared_buffers: 1GB
-        work_mem: 16MB
       primary:
-        persistence:
-          accessModes:
-          - ReadWriteOnce
-          enabled: true
-          size: 20Gi
-          storageClass: longhorn
-        podAnnotations:
-          prometheus.io/port: "9187"
-          prometheus.io/scrape: "true"
-        resources:
-          limits:
-            cpu: 2000m
-            memory: 4Gi
-          requests:
-            cpu: 1000m
-            memory: 2Gi
-      readReplicas:
-        persistence:
-          accessModes:
-          - ReadWriteOnce
-          enabled: true
-          size: 20Gi
-          storageClass: longhorn
-        replicaCount: 2
-        resources:
-          limits:
-            cpu: 2000m
-            memory: 4Gi
-          requests:
-            cpu: 1000m
-            memory: 2Gi
+        name: primary
+        standby:
+          enabled: false
+          primaryHost: ""
+          primaryPort: ""
     priorityClassName: ""
     readinessProbe:
       enabled: true
@@ -248,9 +217,15 @@ spec:
       path: /web/health
       periodSeconds: 10
       successThreshold: 1
-      timeoutSeconds: 5
+      timeoutSeconds: 10
     replicaCount: 3
-    resources: {}
+    resources:
+      limits:
+        cpu: "6"
+        memory: 6Gi
+      requests:
+        cpu: "4"
+        memory: 4Gi
     resourcesPreset: 2xlarge
     schedulerName: ""
     service:
@@ -280,20 +255,26 @@ spec:
     smtpProtocol: ""
     smtpUser: ""
     startupProbe:
-      enabled: false
+      enabled: true
       failureThreshold: 6
       initialDelaySeconds: 300
       path: /web/health
       periodSeconds: 10
       successThreshold: 1
-      timeoutSeconds: 5
+      timeoutSeconds: 10
     terminationGracePeriodSeconds: ""
     tolerations: []
-    topologySpreadConstraints: []
+    topologySpreadConstraints:
+    - labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: odoo
+      maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: DoNotSchedule
     updateStrategy:
       rollingUpdate:
-        maxSurge: 25%
-        maxUnavailable: 25%
+        maxSurge: 1
+        maxUnavailable: 1
       type: RollingUpdate
     usePasswordFiles: false
     volumePermissions:
