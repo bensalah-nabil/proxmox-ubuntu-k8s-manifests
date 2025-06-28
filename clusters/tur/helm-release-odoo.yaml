@@ -183,6 +183,9 @@ spec:
     podAffinityPreset: ""
     podAnnotations: {}
     podAntiAffinityPreset: hard
+    podDisruptionBudget:
+      enabled: true
+      minAvailable: 2
     podLabels: {}
     podSecurityContext:
       enabled: true
@@ -200,6 +203,10 @@ spec:
       enabled: true
       fullnameOverride: odoo-system-odoo-postgresql
       primary:
+        configuration:
+          idle_in_transaction_session_timeout: 30s
+          lock_timeout: 10s
+          max_connections: 200
         name: primary
         standby:
           enabled: false
@@ -270,7 +277,7 @@ spec:
     updateStrategy:
       rollingUpdate:
         maxSurge: 1
-        maxUnavailable: 1
+        maxUnavailable: 0
       type: RollingUpdate
     usePasswordFiles: false
     volumePermissions:
