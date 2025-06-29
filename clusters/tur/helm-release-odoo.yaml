@@ -91,6 +91,8 @@ spec:
     podDisruptionBudget:
       enabled: true
       minAvailable: 1
+    postgresql:
+      enabled: false
     readinessProbe:
       failureThreshold: 3
       initialDelaySeconds: 30
