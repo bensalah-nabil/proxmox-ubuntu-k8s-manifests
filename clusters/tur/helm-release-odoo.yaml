@@ -79,7 +79,7 @@ spec:
     extraDeploy: []
     extraEnvVars:
     - name: ODOO_DATABASE_HOST
-      value: odoo-system-odoo-postgresql
+      value: 10.0.1.4
     - name: ODOO_WORKERS
       value: "8"
     - name: ODOO_MAX_CRON_THREADS
