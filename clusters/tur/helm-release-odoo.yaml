@@ -82,9 +82,9 @@ spec:
       serviceMonitor:
         enabled: true
         interval: 30s
-    odooDatabaseFilter: ^odoo_prod$
-    odooEmail: admin@yourdomain.com
-    odooPassword: ""
+    odooDatabaseFilter: .*
+    odooEmail: user@example.com
+    odooPassword: admin
     odooSkipInstall: false
     persistence:
       accessModes:
