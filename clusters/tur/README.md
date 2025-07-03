@@ -92,13 +92,6 @@ flux create helmrelease helm-release-atlantis --chart atlantis --interval 10s --
 flux create source helm vault --url https://helm.releases.hashicorp.com  --timeout 10s --export > source-helm-vault.yaml
 
 flux create helmrelease helm-release-vault --chart vault --interval 10s --target-namespace vault-system --source HelmRepository/vault --values ../../../proxmox-ubuntu-k8s/helm/vault/values.yaml --export > helm-release-vault.yaml
-
-### Odoo ###
-
-flux create source helm bitnami-odoo --url=oci://registry-1.docker.io/bitnamicharts --interval=10m --namespace=flux-system --export > source-helm-odoo.yaml
-
-flux create helmrelease odoo --source=HelmRepository/bitnami-odoo --chart=odoo --interval 10s --target-namespace odoo-system --chart-version=28.2.4 --values  ../../../proxmox-ubuntu-k8s/helm/odoo/values4.yaml  --export > helm-release-odoo.yaml
-
 ### Positiz ###
 
 flux create source helm bitnami-postiz --url=oci://ghcr.io/gitroomhq/postiz-helmchart/charts --interval=10m --namespace=flux-system --export > source-helm-postiz.yaml
@@ -128,3 +121,50 @@ flux create helmrelease helm-release-minecraft --chart Minecraft --chart-version
 flux create source helm metrics-server --url https://kubernetes-sigs.github.io/metrics-server/ --timeout 10s --export > source-helm-metrics-server.yaml
 
 flux create helmrelease helm-release-metrics-server --chart metrics-server --chart-version 3.12.2 --interval 10s --target-namespace metrics-server --source HelmRepository/metrics-server --values ../../../proxmox-ubuntu-k8s/helm/metrics-server/values.yaml --export > helm-release-metrics-server.yaml
+
+### Odoo ###
+flux create source helm bitnami --url=oci://registry-1.docker.io/bitnamicharts --interval=10m --namespace=flux-system --export > source-helm-odoo.yaml
+
+flux create helmrelease odoo --source=HelmRepository/bitnami --chart=odoo --interval 10s --target-namespace odoo-system --chart-version=28.2.4 --values  ../../../proxmox-ubuntu-k8s/helm/odoo/values7.yaml  --export > helm-release-odoo.yaml
+
+flux create kustomization  kustomize-odoo --source GitRepository/metalb-git --prune true --interval 10s --target-namespace odoo-system --path manifests/apps/odoo --export > kustomize-git-odoo.yaml
+
+### Positiz ###
+flux create source helm bitnami-postiz --url=oci://ghcr.io/gitroomhq/postiz-helmchart/charts --interval=10m --namespace=flux-system --export > source-helm-postiz.yaml
+
+flux create helmrelease postiz --source=HelmRepository/bitnami-postiz --chart=postiz-app --interval 10s --target-namespace postiz-system --values  ../../../proxmox-ubuntu-k8s/helm/postiz/values.yaml  --export > helm-release-postiz.yaml
+
+### Rancher ###
+flux create source helm rancher --url https://releases.rancher.com/server-charts/stable  --timeout 10s --export > source-helm-rancher.yaml
+
+flux create helmrelease helm-release-rancher --chart rancher --chart-version 2.11.2 --interval 10s --target-namespace rancher-system --source HelmRepository/rancher --values ../../../proxmox-ubuntu-k8s/helm/rancher/values.yaml --export > helm-release-rancher.yaml
+
+### cert-manager ###
+
+flux create source helm cert-manager --url https://charts.jetstack.io  --timeout 10s --export > source-helm-cert-manager.yaml
+
+flux create helmrelease helm-release-cert-manager --chart cert-manager  --chart-version 1.17.2 --interval 10s --target-namespace cert-manager --source HelmRepository/cert-manager --values ../../../proxmox-ubuntu-k8s/helm/cert-manager/values.yaml --export > helm-release-cert-manager.yaml
+
+### Minecraft ###
+
+flux create source helm minecraft --url https://itzg.github.io/minecraft-server-charts/  --timeout 10s --export > source-helm-minecraft.yaml
+
+flux create helmrelease helm-release-minecraft --chart Minecraft --chart-version 4.26.3 --interval 10s --target-namespace minecraft --source HelmRepository/minecraft --values ../../../proxmox-ubuntu-k8s/helm/minecraft/values.yaml --export > helm-release-minecraft.yaml
+
+### Mestrics-server ####
+
+flux create source helm metrics-server --url https://kubernetes-sigs.github.io/metrics-server/ --timeout 10s --export > source-helm-metrics-server.yaml
+
+flux create helmrelease helm-release-metrics-server --chart metrics-server --chart-version 3.12.2 --interval 10s --target-namespace metrics-server --source HelmRepository/metrics-server --values ../../../proxmox-ubuntu-k8s/helm/metrics-server/values.yaml --export > helm-release-metrics-server.yaml
+
+### glasskube ###
+
+flux create source helm glasskube-operator --url  https://charts.glasskube.eu/ --timeout 10s --export > source-helm-glasskube-operator.yaml
+
+flux create helmrelease helm-release-glasskube --chart glasskube-operator --chart-version 0.12.2 --interval 10s --target-namespace glasskube-operator --source HelmRepository/glasskube-operator --values ../../../proxmox-ubuntu-k8s/helm/glasskube/values.yaml --export > helm-release-glasskube-operator.yaml
+
+### ERPNext ###
+
+flux create source helm erpnext --url  https://helm.erpnext.com/ --timeout 10s --export > source-helm-erpnext.yaml
+
+flux create helmrelease helm-release-erpnext --chart erpnext --chart-version 7.0.209 --interval 10s --target-namespace erpnext-system --source HelmRepository/erpnext --values ../../../proxmox-ubuntu-k8s/helm/erpnext/values.yaml --export > helm-release-erpnext.yaml
