@@ -458,6 +458,11 @@ spec:
       extraConfigmapMounts: []
       forceDeployDashboards: false
       forceDeployDatasources: false
+      grafana.ini:
+        server:
+          domain: '{{ if (and .Values.ingress.enabled .Values.ingress.hosts) }}{{
+            tpl (.Values.ingress.hosts | first) . }}{{ else }}''''{{ end }}'
+          root_url: https://grafana.service.r2b001.site
       ingress:
         annotations:
           kubernetes.io/ingress.class: nginx
