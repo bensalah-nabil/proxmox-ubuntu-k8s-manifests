@@ -106,14 +106,14 @@ spec:
       path: /web/health
       periodSeconds: 10
       timeoutSeconds: 5
-    replicaCount: 2
+    replicaCount: 1
     resources:
       limits:
-        cpu: "4"
-        memory: 6Gi
-      requests:
         cpu: "2"
         memory: 4Gi
+      requests:
+        cpu: "1"
+        memory: 2Gi
     smtpHost: ""
     smtpPort: ""
     smtpProtocol: ""
