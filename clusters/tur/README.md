@@ -168,3 +168,9 @@ flux create helmrelease helm-release-glasskube --chart glasskube-operator --char
 flux create source helm erpnext --url  https://helm.erpnext.com/ --timeout 10s --export > source-helm-erpnext.yaml
 
 flux create helmrelease helm-release-erpnext --chart erpnext --chart-version 7.0.209 --interval 10s --target-namespace erpnext-system --source HelmRepository/erpnext --values ../../../proxmox-ubuntu-k8s/helm/erpnext/values.yaml --export > helm-release-erpnext.yaml
+
+### CTFD ###
+
+flux create source git ctfd-git --url https://github.com/bensalah-nabil/CTFd --branch main --timeout 10s --export > source-git-ctfd.yaml
+
+flux create kustomization  kustomize-ctf --source GitRepository/ctfd-git --prune true --interval 10s --target-namespace ctf-system --path manifests/ --export > kustomize-git-ctd.yaml
