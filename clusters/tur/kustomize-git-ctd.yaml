@@ -11,4 +11,4 @@ spec:
   sourceRef:
     kind: GitRepository
     name: ctfd-git
-  targetNamespace: ctf-system
+  targetNamespace: ctfd-system
