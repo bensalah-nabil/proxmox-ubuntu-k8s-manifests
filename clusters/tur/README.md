@@ -174,3 +174,9 @@ flux create helmrelease helm-release-erpnext --chart erpnext --chart-version 7.0
 flux create source git ctfd-git --url https://github.com/bensalah-nabil/CTFd --branch main --timeout 10s --export > source-git-ctfd.yaml
 
 flux create kustomization  kustomize-ctf --source GitRepository/ctfd-git --prune true --interval 10s --target-namespace ctfd-system --path manifests/ --export > kustomize-git-ctd.yaml
+
+### Blog ###
+
+flux create source git blog-git --url https://github.com/bensalah-nabil/blog --branch main --timeout 10s --export > source-git-blog.yaml
+
+flux create kustomization  kustomize-blog --source GitRepository/blog-git --prune true --interval 10s --target-namespace blog-system --path manifests/ --export > kustomize-git-blog.yaml
