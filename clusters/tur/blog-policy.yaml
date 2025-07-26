@@ -7,6 +7,7 @@ metadata:
 spec:
   imageRepositoryRef:
     name: blog-repo
+  filterTags:
+    pattern: ".*"
   policy:
-    semver:
-      range: main
+    numerical: {}
