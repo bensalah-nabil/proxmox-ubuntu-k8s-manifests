@@ -185,4 +185,7 @@ flux create kustomization  kustomize-blog --source GitRepository/blog-git --prun
 
 flux create image repository blog --image=ghcr.io/tur-pve/rblog --interval=5m --export > blog-registry.yaml
 
-flux create image policy blog --image-ref=blog --select-semver=main --export > blog-policy.yaml
+flux create image policy blog --image-ref=blog --select-semver=main --export > blog-policy.yaml ## I added the secret ref manually
+
+flux create image update blog-update --git-repo-ref blog-git --checkout-branch main --author-name fluxcdbot --author-email fluxcdbot@users.noreply.github.com --git-repo-path ./manifests --push-branch main --interval 100s --export > blog-update.yaml
+

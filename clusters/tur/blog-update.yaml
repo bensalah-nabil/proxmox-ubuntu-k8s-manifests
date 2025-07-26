@@ -15,7 +15,7 @@ spec:
         name: fluxcdbot
     push:
       branch: main
-  interval: 1m40s
+  interval: 10s
   sourceRef:
     kind: GitRepository
     name: blog-git
