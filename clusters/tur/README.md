@@ -177,7 +177,7 @@ flux create kustomization  kustomize-ctf --source GitRepository/ctfd-git --prune
 
 ### Blog ###
 
-flux create source git blog-git --url https://github.com/bensalah-nabil/blog --branch main --timeout 10s --export > source-git-blog.yaml
+flux create source git blog-git --url https://github.com/TUR-PVE/rBlog --branch main --timeout 10s --export > source-git-blog.yaml
 
 flux create kustomization  kustomize-blog --source GitRepository/blog-git --prune true --interval 10s --target-namespace blog-system --path manifests/ --export > kustomize-git-blog.yaml
 
