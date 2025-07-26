@@ -8,6 +8,7 @@ spec:
   imageRepositoryRef:
     name: blog-repo
   filterTags:
-    pattern: ".*"
+    pattern: "^main$"
   policy:
-    numerical: {}
+    alphabetical:
+      order: asc
