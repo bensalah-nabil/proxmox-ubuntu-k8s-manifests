@@ -5,5 +5,5 @@ metadata:
   name: blog
   namespace: flux-system
 spec:
-  image: docker.io/nxbx/blog
+  image: ghcr.io/tur-pve/rblog
   interval: 5m0s
