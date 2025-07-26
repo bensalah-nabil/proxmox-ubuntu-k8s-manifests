@@ -8,4 +8,6 @@ spec:
   interval: 1m0s
   ref:
     branch: main
-  url: https://github.com/TUR-PVE/rBlog
+  secretRef:
+    name: blog-git
+  url: ssh://git@github.com/TUR-PVE/rBlog.git
