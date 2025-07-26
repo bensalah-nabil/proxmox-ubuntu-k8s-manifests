@@ -180,3 +180,9 @@ flux create kustomization  kustomize-ctf --source GitRepository/ctfd-git --prune
 flux create source git blog-git --url https://github.com/bensalah-nabil/blog --branch main --timeout 10s --export > source-git-blog.yaml
 
 flux create kustomization  kustomize-blog --source GitRepository/blog-git --prune true --interval 10s --target-namespace blog-system --path manifests/ --export > kustomize-git-blog.yaml
+
+### ImagePolicy ###
+
+flux create image repository blog --image=ghcr.io/tur-pve/rblog --interval=5m --export > blog-registry.yaml
+
+flux create image policy blog --image-ref=blog --select-semver=main --export > blog-policy.yaml
