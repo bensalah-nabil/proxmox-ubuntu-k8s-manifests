@@ -7,8 +7,7 @@ metadata:
 spec:
   imageRepositoryRef:
     name: blog-repo
-  filterTags:
-    pattern: "^sha-[a-f0-9]{7}$"
   policy:
-    alphabetical:
-      order: desc
+    semver:
+      range: "sha-*"
+      order: asc
