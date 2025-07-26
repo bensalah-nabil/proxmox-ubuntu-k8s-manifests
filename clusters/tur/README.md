@@ -177,15 +177,21 @@ flux create kustomization  kustomize-ctf --source GitRepository/ctfd-git --prune
 
 ### Blog ###
 
-flux create source git blog-git --url https://github.com/TUR-PVE/rBlog --branch main --timeout 10s --export > source-git-blog.yaml
+flux create secret git blog-git --url=ssh://git@github.com/TUR-PVE/rBlog.git --ssh-key-algorithm=ecdsa --ssh-ecdsa-curve=p521
+
+flux create source git blog-git --url ssh://git@github.com/TUR-PVE/rBlog.git --branch main --timeout 10s --secret-ref blog-git --export > source-git-blog.yaml
 
 flux create kustomization  kustomize-blog --source GitRepository/blog-git --prune true --interval 10s --target-namespace blog-system --path manifests/ --export > kustomize-git-blog.yaml
 
 ### ImagePolicy ###
 
+flux bootstrap github --token-auth --owner=bensalah-nabil --repository=proxmox-ubuntu-k8s-manifests --branch=main --path=clusters/tur  --components-extra=image-reflector-controller,image-automation-controller --personal <GUTHUB_PAT>
+
+kubectl create secret docker-registry ghcr-auth --namespace=flux-system --docker-server=ghcr.io --docker-username=bensalah-nabil --docker-password=<GITHUB_PAT>
+
 flux create image repository blog --image=ghcr.io/tur-pve/rblog --interval=5m --export > blog-registry.yaml
 
-flux create image policy blog --image-ref=blog --select-semver=main --export > blog-policy.yaml ## I added the secret ref manually
+flux create image policy blog-policy --image-ref=blog-repo --select-semver=">=0.0.0" --secret-ref ghcr-auth --export > blog-policy.yaml
 
 flux create image update blog-update --git-repo-ref blog-git --checkout-branch main --author-name fluxcdbot --author-email fluxcdbot@users.noreply.github.com --git-repo-path ./manifests --push-branch main --interval 100s --export > blog-update.yaml
 
