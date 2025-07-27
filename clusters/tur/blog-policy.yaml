@@ -6,6 +6,9 @@ metadata:
 spec:
   imageRepositoryRef:
     name: blog-repo
+  filterTags:
+    pattern: "^sha-"
+    extract: "$1"
   policy:
     alphabetical:
       order: desc
