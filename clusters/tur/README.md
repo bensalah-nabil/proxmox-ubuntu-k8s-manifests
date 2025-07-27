@@ -197,3 +197,6 @@ flux create image policy blog-policy --image-ref=blog-repo --select-semver=">=0.
 
 flux create image update blog-update --git-repo-ref blog-git --checkout-branch main --author-name fluxcdbot --author-email fluxcdbot@users.noreply.github.com --git-repo-path ./manifests --push-branch main --interval 100s --export > blog-update.yaml
 
+### Smart Building ###
+
+flux create kustomization smartbuilding   --source GitRepository/metalb-git   --path manifests/apps/smartbuilding   --prune=true   --interval=10s  --export > kustomize-smartbuilding.yaml
