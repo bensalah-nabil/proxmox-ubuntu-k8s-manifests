@@ -179,6 +179,8 @@ flux create kustomization  kustomize-ctf --source GitRepository/ctfd-git --prune
 
 flux create secret git blog-git --url=ssh://git@github.com/TUR-PVE/rBlog.git --ssh-key-algorithm=ecdsa --ssh-ecdsa-curve=p521
 
+kubectl create secret docker-registry ghcr-secret2 -n blog-system  --docker-server=ghcr.io   --docker-username=tur-pve   --docker-password=<GITHUB_PAT>
+
 flux create source git blog-git --url ssh://git@github.com/TUR-PVE/rBlog.git --branch main --timeout 10s --secret-ref blog-git --export > source-git-blog.yaml
 
 flux create kustomization  kustomize-blog --source GitRepository/blog-git --prune true --interval 10s --target-namespace blog-system --path manifests/ --export > kustomize-git-blog.yaml
