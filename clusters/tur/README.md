@@ -1,4 +1,4 @@
-### podinfo ###
+### podinfo  ###
 # Generate GitRepository Resource YAML
 flux create source git podinfo --url=https://github.com/Selvamraju007/podinfo-app --branch=master --interval=30s --export > ./clusters/tur/podinfo-source.yaml
 
