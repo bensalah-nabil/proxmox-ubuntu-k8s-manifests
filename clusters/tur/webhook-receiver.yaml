@@ -1,0 +1,16 @@
+apiVersion: notification.toolkit.fluxcd.io/v1beta2
+kind: Receiver
+metadata:
+  name: github-webhook
+  namespace: flux-system
+spec:
+  type: github  # Also supports `gitlab`, `generic`, etc.
+  events:
+    - "push"   # Trigger on Git push events
+    - "ping"   # For GitHub webhook testing
+  secretRef:
+    name: webhook-token  # A secret containing a shared token
+  resources:
+    - kind: GitRepository
+      name: flux-system  # The Flux GitRepository to reconcile
+      namespace: flux-system
