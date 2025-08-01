@@ -22,7 +22,7 @@ spec:
       database: odoo_prod
       existingSecret: odoo-secrets
       host: 10.0.1.4
-      port: 5432
+      port: 6432
       user: bn_user
     extraEnvVars:
     - name: ODOO_WORKERS
