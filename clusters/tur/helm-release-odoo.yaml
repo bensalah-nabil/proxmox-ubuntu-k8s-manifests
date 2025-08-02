@@ -26,23 +26,15 @@ spec:
       user: bn_user
     extraEnvVars:
     - name: ODOO_WORKERS
-      value: "6"
+      value: "3"
     - name: ODOO_MAX_CRON_THREADS
       value: "2"
     - name: ODOO_WORKER_RECYCLE
       value: "500"
     - name: ODOO_LIMIT_TIME_REAL
-      value: "300"
+      value: "400"
     - name: ODOO_LIMIT_TIME_CPU
-      value: "240"
-    - name: ODOO_LIMIT_MEMORY_SOFT
-      value: "3221225472"
-    - name: ODOO_LIMIT_MEMORY_HARD
-      value: "4294967296"
-    - name: ODOO_DB_MAXCONN
-      value: "24"
-    - name: PGOPTIONS
-      value: -c statement_timeout=300000
+      value: "400"
     global:
       imagePullSecrets:
       - odoo-secrets
@@ -90,7 +82,7 @@ spec:
       accessModes:
       - ReadWriteMany
       annotations:
-        longhorn.io/replica-count: "3"
+        longhorn.io/replica-count: "1"
       enabled: true
       size: 20Gi
       storageClass: longhorn
