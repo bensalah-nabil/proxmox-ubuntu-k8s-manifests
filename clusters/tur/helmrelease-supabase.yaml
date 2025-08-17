@@ -1,0 +1,612 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: supabase
+  namespace: supabase-system
+spec:
+  chart:
+    spec:
+      chart: charts/supabase
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: GitRepository
+        name: supabase-git
+  interval: 10s
+  values:
+    analytics:
+      affinity: {}
+      autoscaling:
+        enabled: false
+        maxReplicas: 100
+        minReplicas: 1
+        targetCPUUtilizationPercentage: 80
+      bigQuery:
+        enabled: false
+        gcloudJson: ""
+        projectId: google-project-id
+        projectNumber: google-project-number
+      enabled: true
+      environment:
+        DB_DRIVER: postgresql
+        DB_PORT: 5432
+        DB_SCHEMA: _analytics
+        DB_USERNAME: supabase_admin
+        FEATURE_FLAG_OVERRIDE: multibackend=true
+        LOGFLARE_NODE_HOST: 127.0.0.1
+        LOGFLARE_SINGLE_TENANT: "true"
+        LOGFLARE_SUPABASE_MODE: "true"
+      fullnameOverride: ""
+      image:
+        pullPolicy: IfNotPresent
+        repository: supabase/logflare
+        tag: latest
+      imagePullSecrets: []
+      livenessProbe: {}
+      nameOverride: ""
+      nodeSelector: {}
+      podAnnotations: {}
+      podSecurityContext: {}
+      readinessProbe: {}
+      replicaCount: 1
+      resources: {}
+      securityContext: {}
+      service:
+        port: 4000
+        type: ClusterIP
+      serviceAccount:
+        annotations: {}
+        create: true
+        name: ""
+      tolerations: []
+    auth:
+      affinity: {}
+      autoscaling:
+        enabled: true
+        maxReplicas: 100
+        minReplicas: 1
+        targetCPUUtilizationPercentage: 80
+      enabled: true
+      envFrom: []
+      environment:
+        API_EXTERNAL_URL: http://example.com
+        DB_DRIVER: postgres
+        DB_PORT: 5432
+        DB_SSL: disable
+        DB_USER: supabase_auth_admin
+        GOTRUE_API_HOST: 0.0.0.0
+        GOTRUE_API_PORT: "9999"
+        GOTRUE_DISABLE_SIGNUP: "false"
+        GOTRUE_EXTERNAL_EMAIL_ENABLED: "true"
+        GOTRUE_EXTERNAL_PHONE_ENABLED: "false"
+        GOTRUE_JWT_ADMIN_ROLES: service_role
+        GOTRUE_JWT_AUD: authenticated
+        GOTRUE_JWT_DEFAULT_GROUP_NAME: authenticated
+        GOTRUE_JWT_EXP: "3600"
+        GOTRUE_MAILER_AUTOCONFIRM: "true"
+        GOTRUE_MAILER_URLPATHS_CONFIRMATION: /auth/v1/verify
+        GOTRUE_MAILER_URLPATHS_EMAIL_CHANGE: /auth/v1/verify
+        GOTRUE_MAILER_URLPATHS_INVITE: /auth/v1/verify
+        GOTRUE_MAILER_URLPATHS_RECOVERY: /auth/v1/verify
+        GOTRUE_SITE_URL: http://example.com
+        GOTRUE_SMS_AUTOCONFIRM: "false"
+        GOTRUE_SMTP_ADMIN_EMAIL: SMTP_ADMIN_MAIL
+        GOTRUE_SMTP_HOST: SMTP_HOST
+        GOTRUE_SMTP_PORT: SMTP_PORT
+        GOTRUE_SMTP_SENDER_NAME: SMTP_SENDER_NAME
+        GOTRUE_URI_ALLOW_LIST: '*'
+      fullnameOverride: ""
+      image:
+        pullPolicy: IfNotPresent
+        repository: supabase/gotrue
+        tag: latest
+      imagePullSecrets: []
+      livenessProbe: {}
+      nameOverride: ""
+      nodeSelector: {}
+      podAnnotations: {}
+      podSecurityContext: {}
+      readinessProbe: {}
+      replicaCount: 1
+      resources: {}
+      securityContext: {}
+      service:
+        port: 9999
+        type: ClusterIP
+      serviceAccount:
+        annotations: {}
+        create: true
+        name: ""
+      tolerations: []
+    db:
+      affinity: {}
+      autoscaling:
+        enabled: false
+        maxReplicas: 100
+        minReplicas: 1
+        targetCPUUtilizationPercentage: 80
+      config: {}
+      enabled: false
+      environment:
+        JWT_EXP: 3600
+        PGPORT: "5432"
+        POSTGRES_HOST: 10.0.1.4
+        POSTGRES_PORT: "5432"
+      fullnameOverride: ""
+      image:
+        pullPolicy: IfNotPresent
+        repository: supabase/postgres
+        tag: latest
+      imagePullSecrets: []
+      livenessProbe: {}
+      nameOverride: ""
+      nodeSelector: {}
+      persistence:
+        accessModes:
+        - ReadWriteMany
+        annotations: {}
+        class: ""
+        enabled: true
+        size: 8Gi
+        storageClassName: longhorn
+      podAnnotations: {}
+      podSecurityContext: {}
+      readinessProbe: {}
+      replicaCount: 1
+      resources: {}
+      securityContext: {}
+      service:
+        port: 5432
+        type: ClusterIP
+      serviceAccount:
+        annotations: {}
+        create: true
+        name: ""
+      tolerations: []
+    functions:
+      affinity: {}
+      autoscaling:
+        enabled: false
+        maxReplicas: 100
+        minReplicas: 1
+        targetCPUUtilizationPercentage: 80
+      enabled: true
+      environment:
+        DB_DRIVER: postgresql
+        DB_PORT: 5432
+        DB_SSL: disable
+        DB_USERNAME: supabase_functions_admin
+      fullnameOverride: ""
+      image:
+        pullPolicy: IfNotPresent
+        repository: supabase/edge-runtime
+        tag: latest
+      imagePullSecrets: []
+      livenessProbe: {}
+      nameOverride: ""
+      nodeSelector: {}
+      podAnnotations: {}
+      podSecurityContext: {}
+      readinessProbe: {}
+      replicaCount: 1
+      resources: {}
+      securityContext: {}
+      service:
+        port: 9000
+        type: ClusterIP
+      serviceAccount:
+        annotations: {}
+        create: true
+        name: ""
+      tolerations: []
+    imgproxy:
+      affinity: {}
+      autoscaling:
+        enabled: false
+        maxReplicas: 100
+        minReplicas: 1
+        targetCPUUtilizationPercentage: 80
+      enabled: true
+      environment:
+        IMGPROXY_BIND: :5001
+        IMGPROXY_ENABLE_WEBP_DETECTION: "true"
+        IMGPROXY_LOCAL_FILESYSTEM_ROOT: /
+        IMGPROXY_USE_ETAG: "true"
+      fullnameOverride: ""
+      image:
+        pullPolicy: IfNotPresent
+        repository: darthsim/imgproxy
+        tag: latest
+      imagePullSecrets: []
+      livenessProbe: {}
+      nameOverride: ""
+      nodeSelector: {}
+      persistence:
+        accessModes:
+        - ReadWriteOnce
+        annotations: {}
+        class: ""
+        enabled: true
+        size: 10Gi
+        storageClassName: ""
+      podAnnotations: {}
+      podSecurityContext: {}
+      readinessProbe: {}
+      replicaCount: 1
+      resources: {}
+      securityContext: {}
+      service:
+        port: 5001
+        type: ClusterIP
+      serviceAccount:
+        annotations: {}
+        create: true
+        name: ""
+      tolerations: []
+    kong:
+      affinity: {}
+      autoscaling:
+        enabled: false
+        maxReplicas: 100
+        minReplicas: 1
+        targetCPUUtilizationPercentage: 80
+      enabled: true
+      environment:
+        KONG_DATABASE: "off"
+        KONG_DECLARATIVE_CONFIG: /usr/local/kong/kong.yml
+        KONG_DNS_ORDER: LAST,A,CNAME
+        KONG_LOG_LEVEL: warn
+        KONG_NGINX_PROXY_PROXY_BUFFER_SIZE: 160k
+        KONG_NGINX_PROXY_PROXY_BUFFERS: 64 160k
+        KONG_PLUGINS: request-transformer,cors,key-auth,acl,basic-auth
+      fullnameOverride: ""
+      image:
+        pullPolicy: IfNotPresent
+        repository: kong
+        tag: latest
+      imagePullSecrets: []
+      ingress:
+        annotations:
+          nginx.ingress.kubernetes.io/rewrite-target: /
+        className: nginx
+        enabled: true
+        hosts:
+        - host: supabase.service.r2b001.site
+          paths:
+          - path: /
+            pathType: Prefix
+        tls: []
+      livenessProbe: {}
+      nameOverride: ""
+      nodeSelector: {}
+      podAnnotations: {}
+      podSecurityContext: {}
+      readinessProbe: {}
+      replicaCount: 1
+      resources: {}
+      securityContext: {}
+      service:
+        port: 8000
+        type: ClusterIP
+      serviceAccount:
+        annotations: {}
+        create: true
+        name: ""
+      tolerations: []
+    meta:
+      affinity: {}
+      autoscaling:
+        enabled: false
+        maxReplicas: 100
+        minReplicas: 1
+        targetCPUUtilizationPercentage: 80
+      enabled: true
+      environment:
+        DB_DRIVER: postgres
+        DB_PORT: 5432
+        DB_SSL: disable
+        DB_USER: supabase_admin
+        PG_META_PORT: "8080"
+      fullnameOverride: ""
+      image:
+        pullPolicy: IfNotPresent
+        repository: supabase/postgres-meta
+        tag: latest
+      imagePullSecrets: []
+      livenessProbe: {}
+      nameOverride: ""
+      nodeSelector: {}
+      podAnnotations: {}
+      podSecurityContext: {}
+      readinessProbe: {}
+      replicaCount: 1
+      resources: {}
+      securityContext: {}
+      service:
+        port: 8080
+        type: ClusterIP
+      serviceAccount:
+        annotations: {}
+        create: true
+        name: ""
+      tolerations: []
+    minio:
+      affinity: {}
+      autoscaling:
+        enabled: true
+        maxReplicas: 100
+        minReplicas: 1
+        targetCPUUtilizationPercentage: 80
+      enabled: false
+      environment: {}
+      fullnameOverride: ""
+      image:
+        pullPolicy: IfNotPresent
+        repository: minio/minio
+        tag: latest
+      imagePullSecrets: []
+      livenessProbe: {}
+      nameOverride: ""
+      nodeSelector: {}
+      persistence:
+        accessModes:
+        - ReadWriteOnce
+        annotations: {}
+        class: ""
+        enabled: true
+        size: 10Gi
+        storageClassName: longhorn
+      podAnnotations: {}
+      podSecurityContext: {}
+      readinessProbe: {}
+      replicaCount: 1
+      resources: {}
+      securityContext: {}
+      service:
+        port: 9000
+        type: ClusterIP
+      serviceAccount:
+        annotations: {}
+        create: true
+        name: ""
+      tolerations: []
+    realtime:
+      affinity: {}
+      autoscaling:
+        enabled: true
+        maxReplicas: 100
+        minReplicas: 1
+        targetCPUUtilizationPercentage: 80
+      enabled: true
+      environment:
+        DB_AFTER_CONNECT_QUERY: SET search_path TO _realtime
+        DB_ENC_KEY: supabaserealtime
+        DB_PORT: 5432
+        DB_SSL: disable
+        DB_USER: supabase_admin
+        DNS_NODES: ''''''
+        ENABLE_TAILSCALE: "false"
+        ERL_AFLAGS: -proto_dist inet_tcp
+        FLY_ALLOC_ID: fly123
+        FLY_APP_NAME: realtime
+        PORT: "4000"
+        SECRET_KEY_BASE: UpNVntn3cDxHJpq99YMc1T1AQgQpc8kfYTuRgBiYa15BLrx8etQoXz3gZv1/u2oq
+      fullnameOverride: ""
+      image:
+        pullPolicy: IfNotPresent
+        repository: supabase/realtime
+        tag: latest
+      imagePullSecrets: []
+      livenessProbe: {}
+      nameOverride: ""
+      nodeSelector: {}
+      podAnnotations: {}
+      podSecurityContext: {}
+      readinessProbe: {}
+      resources: {}
+      securityContext: {}
+      service:
+        port: 4000
+        type: ClusterIP
+      serviceAccount:
+        annotations: {}
+        create: true
+        name: ""
+      tolerations: []
+    rest:
+      affinity: {}
+      autoscaling:
+        enabled: false
+        maxReplicas: 100
+        minReplicas: 1
+        targetCPUUtilizationPercentage: 80
+      enabled: true
+      environment:
+        DB_DRIVER: postgres
+        DB_PORT: 5432
+        DB_SSL: disable
+        DB_USER: authenticator
+        PGRST_APP_SETTINGS_JWT_EXP: 3600
+        PGRST_DB_ANON_ROLE: anon
+        PGRST_DB_SCHEMAS: public,storage,graphql_public
+        PGRST_DB_USE_LEGACY_GUCS: false
+      fullnameOverride: ""
+      image:
+        pullPolicy: IfNotPresent
+        repository: postgrest/postgrest
+        tag: latest
+      imagePullSecrets: []
+      livenessProbe: {}
+      nameOverride: ""
+      nodeSelector: {}
+      podAnnotations: {}
+      podSecurityContext: {}
+      readinessProbe: {}
+      resources: {}
+      securityContext: {}
+      service:
+        port: 3000
+        type: ClusterIP
+      serviceAccount:
+        annotations: {}
+        create: true
+        name: ""
+      tolerations: []
+    secret:
+      analytics:
+        apiKey: ""
+        secretRef: ""
+        secretRefKey:
+          apiKey: apiKey
+      dashboard:
+        password: nabil
+        secretRefKey:
+          password: password
+          username: username
+        username: nabil
+      db:
+        database: supabase
+        password: your_secure_password_here
+        secretRef: ""
+        secretRefKey:
+          database: database
+          password: password
+          username: username
+        username: supabase_admin
+      jwt:
+        anonKey: 52165289fb1b81098e7703c1dfbebd30
+        secret: 52165289fb1b81098e7703c1dfbebd30
+        secretRef: ""
+        secretRefKey:
+          anonKey: anonKey
+          secret: secret
+          serviceKey: serviceKey
+        serviceKey: 52165289fb1b81098e7703c1dfbebd30
+      s3:
+        secretRefKey:
+          accessKey: accessKey
+          keyId: keyId
+      smtp:
+        secretRefKey:
+          password: password
+          username: username
+    storage:
+      affinity: {}
+      autoscaling:
+        enabled: false
+        maxReplicas: 100
+        minReplicas: 1
+        targetCPUUtilizationPercentage: 80
+      enabled: true
+      environment:
+        DB_DRIVER: postgres
+        DB_PORT: 5432
+        DB_SSL: disable
+        DB_USER: supabase_storage_admin
+        FILE_SIZE_LIMIT: "52428800"
+        FILE_STORAGE_BACKEND_PATH: /var/lib/storage
+        GLOBAL_S3_BUCKET: stub
+        PGOPTIONS: -c search_path=storage,public
+        REGION: stub
+        STORAGE_BACKEND: file
+        TENANT_ID: stub
+      fullnameOverride: ""
+      image:
+        pullPolicy: IfNotPresent
+        repository: supabase/storage-api
+        tag: latest
+      imagePullSecrets: []
+      livenessProbe: {}
+      nameOverride: ""
+      nodeSelector: {}
+      persistence:
+        accessModes:
+        - ReadWriteOnce
+        annotations: {}
+        class: ""
+        enabled: true
+        size: 10Gi
+        storageClassName: longhorn
+      podAnnotations: {}
+      podSecurityContext: {}
+      readinessProbe: {}
+      replicaCount: 1
+      resources: {}
+      securityContext: {}
+      service:
+        port: 5000
+        type: ClusterIP
+      serviceAccount:
+        annotations: {}
+        create: true
+        name: ""
+      tolerations: []
+    studio:
+      affinity: {}
+      autoscaling:
+        enabled: false
+        maxReplicas: 100
+        minReplicas: 1
+        targetCPUUtilizationPercentage: 80
+      enabled: true
+      environment:
+        NEXT_ANALYTICS_BACKEND_PROVIDER: postgres
+        NEXT_PUBLIC_ENABLE_LOGS: "true"
+        STUDIO_DEFAULT_ORGANIZATION: Default Organization
+        STUDIO_DEFAULT_PROJECT: Default Project
+        STUDIO_PORT: "3000"
+        SUPABASE_PUBLIC_URL: http://example.com
+      fullnameOverride: ""
+      image:
+        pullPolicy: IfNotPresent
+        repository: supabase/studio
+        tag: latest
+      imagePullSecrets: []
+      livenessProbe: {}
+      nameOverride: ""
+      nodeSelector: {}
+      podAnnotations: {}
+      podSecurityContext: {}
+      readinessProbe: {}
+      replicaCount: 1
+      resources: {}
+      securityContext: {}
+      service:
+        port: 3000
+        type: ClusterIP
+      serviceAccount:
+        annotations: {}
+        create: true
+        name: ""
+      tolerations: []
+    vector:
+      affinity: {}
+      autoscaling:
+        enabled: false
+        maxReplicas: 100
+        minReplicas: 1
+        targetCPUUtilizationPercentage: 80
+      enabled: true
+      fullnameOverride: ""
+      image:
+        pullPolicy: IfNotPresent
+        repository: timberio/vector
+        tag: latest
+      imagePullSecrets: []
+      livenessProbe: {}
+      nameOverride: ""
+      nodeSelector: {}
+      podAnnotations: {}
+      podSecurityContext: {}
+      readinessProbe: {}
+      replicaCount: 1
+      resources: {}
+      securityContext: {}
+      service:
+        port: 9001
+        type: ClusterIP
+      serviceAccount:
+        annotations: {}
+        create: true
+        name: ""
+      tolerations: []
