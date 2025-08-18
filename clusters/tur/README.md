@@ -200,3 +200,8 @@ flux create image update blog-update --git-repo-ref blog-git --checkout-branch m
 ### Smart Building ###
 
 flux create kustomization smartbuilding   --source GitRepository/metalb-git   --path manifests/apps/smartbuilding   --prune=true   --interval=10s  --export > kustomize-smartbuilding.yaml
+
+### Minio ###
+
+flux create helmrelease helm-release-minio --source=HelmRepository/bitnami --chart=minio --interval 10s --target-namespace minio-system --chart-version=17.0.21 --values  ../../../proxmox-ubuntu-k8s/helm/minio/values.yaml  --export > helm-release-minio.yaml
+ 
