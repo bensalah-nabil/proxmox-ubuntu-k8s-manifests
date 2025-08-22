@@ -81,6 +81,8 @@ flux create source helm oauth-proxy --url https://oauth2-proxy.github.io/manifes
 
 flux create helmrelease helm-release-oauth-proxy --chart oauth2-proxy --interval 10s --target-namespace oauth2-proxy --source HelmRepository/oauth-proxy --values ../../../proxmox-ubuntu-k8s/helm/oauth2-proxy/values.yaml --export > helm-release-oauth-proxy.yaml
 
+flux create kustomization  kustomize-git-oauth --source GitRepository/metalb-git --prune true --interval 10s --target-namespace oauth2-proxy --path manifests/services/oauth2-proxy --export > kustomize-git-oauth.yaml
+
 ### Atlantis ###
 
 flux create source helm atlantis --url https://kubernetes-charts.storage.googleapis.com  --timeout 10s --export > source-helm-atlantis.yaml
