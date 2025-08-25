@@ -1,0 +1,99 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: helm-release-oauth-proxy
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: oauth2-proxy
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: oauth-proxy
+  interval: 10s
+  targetNamespace: oauth2-proxy
+  values:
+    config:
+      clientID: a56eace2-cfc4-4d5e-8552-f3edb979ce86
+      clientSecret: KMW8Q~P9wn3_i0oxWs6d4z.OdvCBiwyH_FGOOad9
+      configFile: |-
+        provider = "azure"
+        provider_display_name = "Azure AD"
+        azure_tenant = "151e41f0-2598-4e00-a9f6-e561efd5c3af"
+
+        # Where oauth2-proxy forwards traffic after login (point to Kong *inside cluster*)
+        upstreams = [ "http://supabase-supabase-kong.supabase-system.svc.cluster.local:8000" ]
+
+        # Session & domain handling
+        cookie_domains = [".r2b001.site"]
+        whitelist_domains = [".r2b001.site"]
+        email_domains = ["*"]
+
+        # URLs
+        http_address = "0.0.0.0:4180"
+        redirect_url = "https://oauth.service.r2b001.site/oauth2/callback"
+        oidc_issuer_url = "https://login.microsoftonline.com/151e41f0-2598-4e00-a9f6-e561efd5c3af/v2.0"
+        scope = "openid email profile"
+
+        # Security & headers
+        cookie_secure = "false"
+        cookie_refresh = "2m"
+        cookie_expire = "24h"
+        skip_jwt_bearer_tokens = "true"
+        pass_user_headers = "true"
+        pass_access_token = "true"
+        pass_authorization_header = "true"
+        set_authorization_header = "true"
+        set_xauthrequest = "true"
+      cookieSecret: 6EuZQnnaInqwMJG0pn7-xazsOJvRpSkjSIE0wJFB65M=
+    ingress:
+      annotations:
+        nginx.ingress.kubernetes.io/proxy-buffer-size: 16k
+        nginx.ingress.kubernetes.io/proxy-buffers-number: "8"
+        nginx.ingress.kubernetes.io/proxy-busy-buffers-size: 24k
+      className: nginx
+      enabled: true
+      hosts:
+      - oauth.service.r2b001.site
+      path: /
+      pathType: Prefix
+    metrics:
+      enabled: true
+      port: 44180
+    replicaCount: 2
+    resources:
+      limits:
+        cpu: 200m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    securityContext:
+      capabilities:
+        drop:
+        - ALL
+      enabled: true
+      readOnlyRootFilesystem: true
+      runAsGroup: 1000
+      runAsNonRoot: true
+      runAsUser: 1000
+    service:
+      appProtocol: http
+      portNumber: 80
+      targetPort: 4180
+      type: ClusterIP
+    sessionStorage:
+      redis:
+        clientType: standalone
+        existingSecret: ""
+        password: V13I4dT4n9wt
+        standalone:
+          connectionUrl: redis://10.0.1.40:6379
+      type: redis
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+      type: RollingUpdate
