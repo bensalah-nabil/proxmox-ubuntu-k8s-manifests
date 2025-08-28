@@ -207,3 +207,9 @@ flux create kustomization smartbuilding   --source GitRepository/metalb-git   --
 
 flux create helmrelease helm-release-minio --source=HelmRepository/bitnami --chart=minio --interval 10s --target-namespace minio-system --chart-version=17.0.21 --values  ../../../proxmox-ubuntu-k8s/helm/minio/values.yaml  --export > helm-release-minio.yaml
  
+
+### n8n ###
+
+flux create source git n8n-git --url https://github.com/bensalah-nabil/n8n-hosting --branch main --timeout 10s --export > source-git-n8n.yaml
+
+flux create kustomization  kustomize-git-n8n --source GitRepository/n8n-git --prune true --interval 10s --target-namespace n8n --path kubernetes --export > kustomize-git-n8n.yaml
